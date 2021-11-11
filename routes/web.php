@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\QuestionController;
+use App\Http\Controllers\frontend\QuestionController as FrontendQuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->group(function () {
+    Route::resource('questions', QuestionController::class);
 });
 
-Route::resource('questions', QuestionController::class);
+
+Route::get('/',[FrontendQuestionController::class,'index']);
+Route::post('/get-answer',[FrontendQuestionController::class,'getAnswer'])->name('get-answer');
